@@ -1,0 +1,23 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: easy-ranking-backend-img
+    container_name: easy-ranking-server-ct
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./server/database:/app/database
+      - ./server/src:/app/src
+    restart: unless-stopped
+  client:
+    depends_on: [server]
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: easy-ranking-frontend-image
+    container_name: easy-ranking-frontend-ct
+    ports:
+      - '5173:5173'
+    restart: unless-stopped
