@@ -35,3 +35,5 @@ These routes does not use database.
 ![Prioritization methods](./images/priori.png)
 ![TOPSIS](./images/topsis.png)
 ## Database model
+
+![DbSchema](./images/dbschema.png)
