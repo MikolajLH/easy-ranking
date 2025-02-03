@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { FinishedRanking, FinishedRankingDB, transpose } from "../types";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/axios";
 import PCM from "../components/PCM";
 
 function RankingOverviewPage() {
+    const navigate = useNavigate();
+
     const [ranking, setRanking] = useState<FinishedRanking | null>(null);
     const { id } = useParams();
     const [criteriaWeights, setCriteriaWeights] = useState<number[]>([]);
@@ -25,6 +27,7 @@ function RankingOverviewPage() {
                 console.log(response.data);
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
             }
         }
         getranking();
@@ -50,11 +53,12 @@ function RankingOverviewPage() {
 
                 const X = temppri.map((item) => item.data);
 
-                const topsisres = await api.post<number[]>("/mcda/topsis/", [transpose(X), crit_res.data]);
-                setTopsis(topsisres.data);
+                const topsisres = await api.post<[number[], number[], number[]]>("/mcda/topsis/", [transpose(X), crit_res.data]);
+                setTopsis(topsisres.data[2]);
 
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
             }
         }
     }
@@ -81,7 +85,7 @@ function RankingOverviewPage() {
                         const promises = critalt_pcms.map((item) => api.post<number[]>(apiurl, item));
                         const tempres = await Promise.all(promises);
 
-                        const finalres = await api.post<number[]>("/aggregations/final", [tempres.map((item) => item.data), crit_res.data]);
+                        const finalres = await api.post<number[]>("/aggregations/level3", [tempres.map((item) => item.data), crit_res.data]);
                         setFinalWeights(finalres.data);
 
                     } else {
@@ -97,12 +101,13 @@ function RankingOverviewPage() {
                         const tempagg = await Promise.all(critalt_pcms.map((item) => api.post<number[][]>(apiurlagg, item)));
                         const temppri = await Promise.all(tempagg.map((item) => (api.post<number[]>(apiurlpri, item.data))));
 
-                        const finalres = await api.post<number[]>("/aggregations/final", [temppri.map((item) => item.data), crit_res.data]);
+                        const finalres = await api.post<number[]>("/aggregations/level3", [temppri.map((item) => item.data), crit_res.data]);
                         setFinalWeights(finalres.data);
 
                     }
                 } catch (err) {
-                    console.log(err)
+                    console.log(err);
+                    navigate("/error/");
                 }
             }
         }

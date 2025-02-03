@@ -30,6 +30,7 @@ function RankingManagementPage() {
                 setRanking(response.data);
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
             }
         }
         getdata();
@@ -62,7 +63,8 @@ function RankingManagementPage() {
                     await api.delete(`/rankings/${ranking_id}`);
                     navigate(`/ranking/${response.data.id}`);
                 } catch (err) {
-                    console.log(err)
+                    console.log(err);
+                    navigate("/error/");
                 }
 
             }

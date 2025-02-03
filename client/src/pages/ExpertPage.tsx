@@ -25,6 +25,7 @@ function ExpertPage() {
                 setFinishedRankings(finres.data);
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
             }
         }
         getrankings();

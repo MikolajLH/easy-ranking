@@ -1,8 +1,10 @@
 import Navbar from "../components/Navbar";
 import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 
 function AdminPage() {
+    const navigate = useNavigate();
 
     const clearDB = () => {
         const cleardb = async () => {
@@ -11,6 +13,7 @@ function AdminPage() {
                 console.log(response);
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
             }
         }
         cleardb();
@@ -34,6 +37,7 @@ function AdminPage() {
                 }
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
             }
         }
         fetchdb();

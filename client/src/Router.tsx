@@ -8,6 +8,7 @@ import RankingManagementPage from "./pages/RankingManagementPage";
 import RankingCreationPage from "./pages/RankingCreationPage";
 import RankingOverviewPage from "./pages/RankingOverviewPage";
 import AdminPage from "./pages/AdminPage";
+import ErrorPage from "./pages/ErrorPage";
 
 
 
@@ -24,6 +25,7 @@ function Router() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/ranking/:id" element={<RankingOverviewPage />} />
 
+            <Route path="/error" element={<ErrorPage />} />
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );

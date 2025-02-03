@@ -15,12 +15,13 @@ function HomePage() {
             try {
                 const response = await api.put<Expert>(`/experts/`, { nickname: nickname });
                 console.log(response.data);
+                navigate(`/expert/${nickname}`);
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
             }
         }
         signin();
-        navigate(`/expert/${nickname}`);
     }
 
     return (

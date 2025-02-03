@@ -31,6 +31,7 @@ function RankingCreationPage() {
                 navigate(`/expert/${nickname}/ranking/${rankingId}/manage`);
             } catch (err) {
                 console.log(err);
+                navigate("/error/");
                 return -1;
             }
         }
