@@ -23,6 +23,11 @@ def aij_method(pcms: list[list[list[float]]]):
 
 @router.post("/aip/{priotitization_method}/{mean}", response_model=list[float])
 def aip_method(priotitization_method: str, mean: str, pcms: list[list[list[float]]]):
+    '''
+    Possible means:
+    - art - arithmetic mean
+    - geo - geometric mean
+    '''
     matrices = [np.array(pcm) for pcm in pcms]
     prior_method = get_method_impl(priotitization_method)
     r = len(matrices)
@@ -43,8 +48,14 @@ def aip_method(priotitization_method: str, mean: str, pcms: list[list[list[float
     return []
 
 
-@router.post("/final", response_model=list[float])
+@router.post("/level3", response_model=list[float])
 def final_weights(data: tuple[list[list[float]], list[float]]):
+    '''
+    First element in a tuple is an m by n matrix representing list of vectors of weights corresponding to each criteria - Level 1.  
+    Second element in a tuple is a vector of weights of criteria - Level 2.
+
+    Returns a vector of weights of alternatives - Level 3.
+    '''
     alternatives_weights, criteria_weights = data
     m = len(criteria_weights)
     w2 = np.array(criteria_weights)

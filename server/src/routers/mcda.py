@@ -21,14 +21,23 @@ def topsis(X: np.ndarray, W: np.ndarray) -> np.ndarray:
     dpis = np.linalg.norm(D - pis, axis=1)
     dnis = np.linalg.norm(D - nis, axis=1)
 
-    return dnis / (dnis + dpis)
+    return pis, nis, dnis / (dnis + dpis)
     
 
 
 
-@router.post("/topsis", response_model=list[float])
+@router.post("/topsis", response_model=tuple[list[float], list[float], list[float]])
 def topsis_method(data: tuple[list[list[float]], list[float]]):
+    '''
+    TOPSIS method
+
+    First element in a tuple is a matrix of columnes of weights of vectors corresponding to each criteria.  
+    Second element in a tuple is a vector of criteria' weights that sums up to one.
+
+    Return Positive Ideal Solution, Negative Ideal Solution and The Vector of alternatives' relative distances to them.
+    '''
     alts, weights = data
     X = np.array(alts)
     W = np.array(weights)
-    return list(topsis(X, W))
+    p,n,r = topsis(X, W)
+    return list(p), list(n), list(r)
