@@ -3,7 +3,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: easy-ranking-backend-img
+    image: easy-ranking-backend-image
     container_name: easy-ranking-server-ct
     ports:
       - '5000:5000'
